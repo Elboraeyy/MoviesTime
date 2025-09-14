@@ -77,6 +77,4 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-git remote add origin https://github.com/Elboraeyy/MovieTime
-git branch -M main
-git push -u origin main
+
