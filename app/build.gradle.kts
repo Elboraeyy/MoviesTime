@@ -40,7 +40,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.14" // ← إصدار متوافق مع Kotlin 2.0.21
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
 }
 
@@ -119,4 +119,5 @@ dependencies {
     implementation("com.google.accompanist:accompanist-swiperefresh:0.34.0")
 
 
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.0.0")
 }
