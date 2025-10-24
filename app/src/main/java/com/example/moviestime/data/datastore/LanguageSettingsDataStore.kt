@@ -17,7 +17,7 @@ class LanguageSettingsDataStore(private val context: Context) {
 
     val appLanguage: Flow<String> = context.dataStore.data
         .map { preferences ->
-            preferences[LANGUAGE_KEY] ?: "en" // Default: English
+            preferences[LANGUAGE_KEY] ?: "en"
         }
 
     suspend fun setAppLanguage(language: String) {

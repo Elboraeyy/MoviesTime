@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.launch
@@ -20,9 +21,10 @@ import com.example.moviestime.ui.components.*
 import com.example.moviestime.viewmodel.HomeViewModel
 import com.example.moviestime.viewmodel.MainViewModel
 
-@Composable
 @androidx.annotation.RequiresPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+@Composable
 fun HomeScreen(
+    navController: NavHostController,
     homeViewModel: HomeViewModel = viewModel(),
     mainViewModel: MainViewModel = viewModel()
 ) {
@@ -110,7 +112,7 @@ fun HomeScreen(
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                         items(nowPlaying) { movie ->
                             FeaturedLargeCard(movie = movie) { selectedMovie ->
-                                // Handle movie click
+                                navController.navigate("movie/${selectedMovie.id}")
                             }
                         }
                     }
@@ -121,6 +123,9 @@ fun HomeScreen(
                         title = "🔥 Popular",
                         movies = popular,
                         favorites = favorites,
+                        onMovieClick = { movie ->
+                            navController.navigate("movie/${movie.id}")
+                        },
                         onFavoriteClick = { movie -> mainViewModel.toggleFavorite(movie) }
                     )
                 }
@@ -130,6 +135,9 @@ fun HomeScreen(
                         title = "🏆 Top Rated",
                         movies = topRated,
                         favorites = favorites,
+                        onMovieClick = { movie ->
+                            navController.navigate("movie/${movie.id}")
+                        },
                         onFavoriteClick = { movie -> mainViewModel.toggleFavorite(movie) }
                     )
                 }
@@ -139,7 +147,10 @@ fun HomeScreen(
                         title = "🍿 Upcoming",
                         movies = upcoming,
                         favorites = favorites,
-                        onFavoriteClick = { movie -> mainViewModel.toggleFavorite(movie) }
+                        onMovieClick = { movie ->
+                            navController.navigate("movie/${movie.id}")
+                        },
+                        onFavoriteClick =  { movie -> mainViewModel.toggleFavorite(movie) }
                     )
                 }
             }
@@ -158,7 +169,7 @@ fun SectionTitleWithSeeAll(title: String) {
             title,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
-            color = androidx.compose.ui.graphics.Color.White
+            color = Color.White
         )
         TextButton(onClick = {}) {
             Text(

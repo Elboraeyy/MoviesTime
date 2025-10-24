@@ -1,3 +1,4 @@
+// ui/screens/MoviesApp.kt
 package com.example.moviestime.ui.screens
 
 import androidx.compose.foundation.Image
@@ -12,20 +13,25 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.moviestime.R
-import com.example.moviestime.viewmodel.LanguageViewModel
 import com.example.moviestime.viewmodel.MainViewModel
 import com.example.moviestime.viewmodel.ThemeViewModel
 import com.example.moviestime.viewmodel.NotificationViewModel
+import com.example.moviestime.viewmodel.LanguageViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @androidx.annotation.RequiresPermission(android.Manifest.permission.POST_NOTIFICATIONS)
@@ -138,10 +144,45 @@ fun MoviesApp(
         ) { padding ->
             Box(Modifier.padding(padding)) {
                 NavHost(navController = navController, startDestination = "home") {
-                    composable("home") { HomeScreen() }
-                    composable("discover") { DiscoverScreen() }
-                    composable("profile") { ProfileScreen() }
-                    composable("search") { SearchScreen() }
+                    composable("home") {
+                        HomeScreen(
+                            navController = navController,
+                            homeViewModel = viewModel(),
+                            mainViewModel = mainViewModel
+                        )
+                    }
+                    composable("discover") {
+                        DiscoverScreen(
+                            navController = navController,
+                            searchViewModel = viewModel()
+                        )
+                    }
+                    composable("profile") {
+                        ProfileScreen(
+                            mainViewModel = mainViewModel,
+                            themeViewModel = themeViewModel,
+                            languageViewModel = languageViewModel
+                        )
+                    }
+                    composable("search") {
+                        SearchScreen(
+                            navController = navController,
+                            searchViewModel = viewModel()
+                        )
+                    }
+                    composable("movie/{movieId}") { backStackEntry ->
+                        val movieId = backStackEntry.arguments?.getString("movieId")?.toInt() ?: 1
+                        MovieDetailsScreen(
+                            movieId = movieId,
+                            mainViewModel = mainViewModel,
+                            onBack = { navController.popBackStack() },
+                            onPlayClick = { movie ->
+                                navController.navigate("video/${movie.id}")
+                            },
+                            onShareClick = { movie ->
+                            }
+                        )
+                    }
                 }
             }
         }

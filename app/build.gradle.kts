@@ -4,16 +4,17 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("kotlin-kapt")
     id("com.google.gms.google-services")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
     namespace = "com.example.moviestime"
-    compileSdk = 34 // ← تم تعديله لـ 34 (الأكثر استقرارًا مع Compose BOM 2024.09.00)
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.moviestime"
         minSdk = 24
-        targetSdk = 34 // ← تم تعديله ليطابق compileSdk
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -46,6 +47,7 @@ android {
 
 dependencies {
 
+    // Dependencies from toml
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -63,33 +65,23 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-    // Coil for Image Loading
-    implementation("io.coil-kt:coil-compose:2.6.0")
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.52")
+    kapt("com.google.dagger:hilt-android-compiler:2.52")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
-    // ViewModel + Compose
+    // ViewModel + Navigation
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
-
-    // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.7")
 
-    // Optional: Accompanist System UI Controller (لضبط الـ Status Bar)
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.34.0")
-
-    // Material Icons Extended
-    implementation("androidx.compose.material:material-icons-extended:1.6.8")
-
-    // Optional: Voyager Navigator (لو حابب تستخدمه لاحقًا)
-    // implementation("cafe.adriel.voyager:voyager-navigator:1.1.0-beta02")
-
+    // Coil for Image Loading
+    implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation("io.coil-kt:coil:2.6.0")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
-
-    // Coil (لتحميل الصور — لو مش مضاف)
-    implementation("io.coil-kt:coil-compose:2.6.0")
 
     // Room
     implementation("androidx.room:room-runtime:2.6.1")
@@ -99,25 +91,19 @@ dependencies {
     // Firebase Auth
     implementation("com.google.firebase:firebase-auth:23.0.0")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
-
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-
-    implementation("androidx.navigation:navigation-compose:2.7.7")
-
+    // DataStore
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 
-
-    implementation("io.coil-kt:coil-compose:2.6.0")
-    implementation("io.coil-kt:coil:2.6.0") // ← مهم!
-
-    implementation("androidx.compose.material3:material3:<your_material3_version>")
-
-    implementation("androidx.compose.material3:material3:1.2.0")
-
+    // Accompanist
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.34.0")
     implementation("com.google.accompanist:accompanist-swiperefresh:0.34.0")
 
+    // Material Icons Extended
+    implementation("androidx.compose.material:material-icons-extended:1.6.8")
 
+    // Youtube Player
     implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.0.0")
 }
+

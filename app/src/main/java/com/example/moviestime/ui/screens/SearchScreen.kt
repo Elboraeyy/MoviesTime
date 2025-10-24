@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -20,19 +21,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.example.moviestime.R
 import com.example.moviestime.data.model.Movie
 import com.example.moviestime.ui.components.EmptyState
 import com.example.moviestime.ui.components.ShimmerMovieCard
 import com.example.moviestime.viewmodel.SearchViewModel
 
-
 @Composable
 fun SearchScreen(
+    navController: NavHostController,
     searchViewModel: SearchViewModel = viewModel(),
     onMovieClick: (Movie) -> Unit = {},
     onFavoriteClick: (Movie) -> Unit = {}
 ) {
+
     val query by searchViewModel.searchQuery.collectAsState()
     val results by searchViewModel.searchResults.collectAsState()
     val isLoading by searchViewModel.isLoading.collectAsState()
@@ -119,7 +123,9 @@ fun SearchScreen(
                     items(results) { movie ->
                         MovieGridItem(
                             movie = movie,
-                            onClick = { onMovieClick(movie) },
+                            onClick = {
+                                navController.navigate("movie/${movie.id}")
+                            },
                             onFavoriteClick = { onFavoriteClick(movie) }
                         )
                     }
@@ -149,9 +155,10 @@ fun MovieGridItem(
                     .fillMaxWidth()
                     .height(240.dp)
                     .clip(RoundedCornerShape(16.dp)),
-                placeholder = painterResource(android.R.drawable.ic_menu_gallery),
-                error = painterResource(android.R.drawable.ic_menu_report_image)
+                placeholder = painterResource(R.drawable.ic_launcher_foreground),
+                error = painterResource(R.drawable.ic_launcher_foreground)
             )
+
             IconButton(
                 onClick = onFavoriteClick,
                 modifier = Modifier
@@ -159,10 +166,9 @@ fun MovieGridItem(
                     .padding(8.dp)
             ) {
                 Icon(
-                    Icons.Filled.Search,
-                    contentDescription = "No results",
-                    tint = Color.White.copy(alpha = 0.5f),
-                    modifier = Modifier.size(64.dp)
+                    Icons.Default.Favorite,
+                    contentDescription = "Favorite",
+                    tint = Color.Red
                 )
             }
         }

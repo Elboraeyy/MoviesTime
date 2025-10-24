@@ -12,7 +12,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -20,13 +19,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.moviestime.data.model.Movie
 
 @Composable
 fun MovieCardSmall(
-    movie: com.example.moviestime.data.model.Movie,
+    movie: Movie,
     isFavorite: Boolean = false,
-    onMovieClick: (com.example.moviestime.data.model.Movie) -> Unit = {},
-    onFavoriteClick: (com.example.moviestime.data.model.Movie) -> Unit = {}
+    onMovieClick: (Movie) -> Unit = {},
+    onFavoriteClick: (Movie) -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -39,14 +39,15 @@ fun MovieCardSmall(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
-                .clip(RoundedCornerShape(16.dp))
+                .height(180.dp)
         ) {
             AsyncImage(
                 model = movie.posterPath ?: "https://via.placeholder.com/300x450",
                 contentDescription = movie.title,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(16.dp))
             )
 
             IconButton(
@@ -54,7 +55,6 @@ fun MovieCardSmall(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
                     .padding(8.dp)
-                    .scale(if (isFavorite) 1.2f else 1f) // ← ✅ Scale Animation
             ) {
                 Icon(
                     imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Outlined.Favorite,
@@ -63,6 +63,7 @@ fun MovieCardSmall(
                 )
             }
         }
+
 
         Column(
             modifier = Modifier

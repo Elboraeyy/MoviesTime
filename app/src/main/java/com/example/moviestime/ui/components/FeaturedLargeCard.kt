@@ -18,11 +18,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.moviestime.data.model.Movie
 
 @Composable
 fun FeaturedLargeCard(
-    movie: com.example.moviestime.data.model.Movie,
-    onPlayClick: (com.example.moviestime.data.model.Movie) -> Unit = {}
+    movie: Movie,
+    onPlayClick: (Movie) -> Unit = {}
 ) {
     Box(
         modifier = Modifier

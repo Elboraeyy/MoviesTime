@@ -1,4 +1,3 @@
-// ui/screens/ProfileScreen.kt
 package com.example.moviestime.ui.screens
 
 import androidx.compose.foundation.background
@@ -28,8 +27,8 @@ import com.example.moviestime.viewmodel.MainViewModel
 import com.example.moviestime.viewmodel.ThemeViewModel
 import com.example.moviestime.viewmodel.LanguageViewModel
 
-@Composable
 @androidx.annotation.RequiresPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+@Composable
 fun ProfileScreen(
     mainViewModel: MainViewModel = viewModel(),
     themeViewModel: ThemeViewModel = viewModel(),
@@ -167,6 +166,7 @@ fun ProfileScreen(
                             MovieCardSmall(
                                 movie = movie,
                                 isFavorite = true,
+                                onMovieClick = {},
                                 onFavoriteClick = { selectedMovie ->
                                     mainViewModel.toggleFavorite(selectedMovie)
                                 }

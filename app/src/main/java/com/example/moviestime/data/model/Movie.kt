@@ -6,6 +6,6 @@ data class Movie(
     val genre: String,
     val rating: Float,
     val duration: Int,
-    val posterPath: String? = null, // مسار الصورة من الإنترنت
+    val posterPath: String? = null,
     val id: Int = 0
 )
