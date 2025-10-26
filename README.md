@@ -24,6 +24,3 @@ It features a modern UI design, bottom navigation, and dynamic background with g
 - **Architecture**: Single Activity  
 - **Design**: Material3 (M3)  
 
----
-
-## 📸 Screenshots
